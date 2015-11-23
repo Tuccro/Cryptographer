@@ -1,4 +1,4 @@
-package com.tuccro.cryptographer;
+package com.tuccro.cryptographer.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.tuccro.cryptographer.R;
 import com.tuccro.filemanager.FileManager;
 
 import java.io.File;
@@ -19,6 +20,7 @@ public class EncryptActivity extends AppCompatActivity {
 
     Button buttonGetFile;
     Button buttonGetFolder;
+    Button buttonNext;
 
     CheckBox checkBoxUseOrigin;
 
@@ -43,6 +45,7 @@ public class EncryptActivity extends AppCompatActivity {
     private void init() {
         buttonGetFile = (Button) findViewById(R.id.button_get_file);
         buttonGetFolder = (Button) findViewById(R.id.button_get_folder);
+        buttonNext = (Button) findViewById(R.id.button_next);
         checkBoxUseOrigin = (CheckBox) findViewById(R.id.checkbox_use_original);
 
         textViewFrom = (TextView) findViewById(R.id.text_from);
@@ -97,21 +100,17 @@ public class EncryptActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) switch (requestCode) {
+            case FileManager.REQUEST_FILE:
 
-            switch (requestCode) {
-                case FileManager.REQUEST_FILE:
+                fileFromPath = FileManager.getPathFromResultIntent(data);
+                textViewFrom.setText(fileFromPath);
+                break;
+            case FileManager.REQUEST_FOLDER:
 
-                    fileFromPath = FileManager.getPathFromResultIntent(data);
-                    textViewFrom.setText(fileFromPath);
-                    break;
-                case FileManager.REQUEST_FOLDER:
-
-                    resultFolderPath = FileManager.getPathFromResultIntent(data);
-                    textViewTo.setText(resultFolderPath);
-                    break;
-            }
+                resultFolderPath = FileManager.getPathFromResultIntent(data);
+                textViewTo.setText(resultFolderPath);
+                break;
         }
     }
-
 }
