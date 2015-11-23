@@ -10,13 +10,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tuccro.cryptographer.R;
+import com.tuccro.cryptographer.engine.CryptoThread;
+import com.tuccro.cryptographer.engine.IEngineCallback;
 import com.tuccro.filemanager.FileManager;
 
 import java.io.File;
 
-public class EncryptActivity extends AppCompatActivity {
+public class EncryptActivity extends AppCompatActivity implements IEngineCallback {
 
     Button buttonGetFile;
     Button buttonGetFolder;
@@ -53,6 +56,7 @@ public class EncryptActivity extends AppCompatActivity {
 
         buttonGetFile.setOnClickListener(onClickListener);
         buttonGetFolder.setOnClickListener(onClickListener);
+        buttonNext.setOnClickListener(onClickListener);
 
         checkBoxUseOrigin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -92,6 +96,9 @@ public class EncryptActivity extends AppCompatActivity {
                 case R.id.button_get_folder:
                     FileManager.getFolder(EncryptActivity.this);
                     break;
+                case R.id.button_next:
+                    new CryptoThread(EncryptActivity.this, null, null).start();
+                    break;
             }
         }
     };
@@ -112,5 +119,19 @@ public class EncryptActivity extends AppCompatActivity {
                 textViewTo.setText(resultFolderPath);
                 break;
         }
+    }
+
+    @Override
+    public void onFinish() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(EncryptActivity.this, "Wow!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onError() {
     }
 }
