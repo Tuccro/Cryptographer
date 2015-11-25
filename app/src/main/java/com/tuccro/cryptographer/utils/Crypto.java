@@ -40,8 +40,8 @@ public class Crypto {
      */
     public static byte[] encodeFile(byte[] key, byte[] fileData) throws Exception {
 
-        SecretKeySpec sKeySpec = new SecretKeySpec(key, "DES");
-        Cipher cipher = Cipher.getInstance("DES");
+        SecretKeySpec sKeySpec = new SecretKeySpec(key, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, sKeySpec);
 
         byte[] encrypted = cipher.doFinal(fileData);
@@ -58,8 +58,8 @@ public class Crypto {
      * @throws Exception the exception
      */
     public static byte[] decodeFile(byte[] key, byte[] fileData) throws Exception {
-        SecretKeySpec sKeySpec = new SecretKeySpec(key, "DES");
-        Cipher cipher = Cipher.getInstance("DES");
+        SecretKeySpec sKeySpec = new SecretKeySpec(key, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
 
         byte[] decrypted = cipher.doFinal(fileData);

@@ -13,7 +13,7 @@ public class FilesIO {
 
     public static byte[] getFileBytes(String sourceFilePath) throws IOException {
 
-        RandomAccessFile randomAccessFile = new RandomAccessFile(sourceFilePath, "r");
+        RandomAccessFile randomAccessFile = new RandomAccessFile(new File(sourceFilePath), "r");
 
         byte[] b = new byte[(int) randomAccessFile.length()];
         randomAccessFile.read(b);

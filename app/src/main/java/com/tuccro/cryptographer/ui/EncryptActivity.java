@@ -97,7 +97,7 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
                     FileManager.getFolder(EncryptActivity.this);
                     break;
                 case R.id.button_next:
-                    new CryptoThread(EncryptActivity.this, null, null, "test").start();
+                    new CryptoThread(EncryptActivity.this, fileFromPath, resultFolderPath, "test").start();
                     break;
             }
         }

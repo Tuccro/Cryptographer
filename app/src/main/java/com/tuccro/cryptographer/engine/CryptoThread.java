@@ -34,7 +34,7 @@ public class CryptoThread extends Thread {
             fileBytes = FilesIO.getFileBytes(sourceFilePath);
             byte[] key = Crypto.generateKey(password);
 
-            byte[] result = Crypto.decodeFile(key, fileBytes);
+            byte[] result = Crypto.encodeFile(key, fileBytes);
 
             FilesIO.writeFile(result, resultDestinationPath, new File(sourceFilePath).getName().concat(".encrypt"));
 
