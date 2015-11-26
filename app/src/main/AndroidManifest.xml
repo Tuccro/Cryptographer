@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,15 +22,15 @@
             </intent-filter>
         </activity>
         <activity android:name="com.tuccro.filemanager.ui.FileManagerActivity" />
-        <activity android:name=".ui.ResultActivity" />
+        <activity android:name=".ui.activities.ResultActivity" />
         <activity
-            android:name=".ui.EncryptActivity"
+            android:name=".ui.activities.EncryptActivity"
             android:label="@string/title_activity_encryptor"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
+                android:value=".ui.activities.MainActivity" />
         </activity>
     </application>
 

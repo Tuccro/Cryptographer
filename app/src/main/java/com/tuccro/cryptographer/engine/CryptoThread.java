@@ -1,5 +1,7 @@
 package com.tuccro.cryptographer.engine;
 
+import android.util.Log;
+
 import com.tuccro.cryptographer.utils.Crypto;
 import com.tuccro.cryptographer.utils.FilesIO;
 
@@ -31,19 +33,25 @@ public class CryptoThread extends Thread {
         byte[] fileBytes;
 
         try {
+            iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_READING);
             fileBytes = FilesIO.getFileBytes(sourceFilePath);
+
+            iEngineCallback.onStateChange(IEngineCallback.STATE_KEY_GENERATING);
             byte[] key = Crypto.generateKey(password);
 
+            iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_ENCODING);
             byte[] result = Crypto.encodeFile(key, fileBytes);
 
+            iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_WRITING);
             FilesIO.writeFile(result, resultDestinationPath, new File(sourceFilePath).getName().concat(".encrypt"));
+
+//            Log.e("Array size", String.valueOf(fileBytes.length));
 
         } catch (Exception e) {
             e.printStackTrace();
             iEngineCallback.onError();
         }
 
-//        Testing the interface
         iEngineCallback.onFinish();
     }
 }

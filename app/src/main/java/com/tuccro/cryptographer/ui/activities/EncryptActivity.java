@@ -1,10 +1,11 @@
-package com.tuccro.cryptographer.ui;
+package com.tuccro.cryptographer.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.tuccro.cryptographer.R;
 import com.tuccro.cryptographer.engine.CryptoThread;
 import com.tuccro.cryptographer.engine.IEngineCallback;
+import com.tuccro.cryptographer.ui.dialogs.EncodingProgressDialog;
 import com.tuccro.filemanager.FileManager;
 
 import java.io.File;
@@ -32,6 +34,8 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
 
     String fileFromPath;
     String resultFolderPath;
+
+    EncodingProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,11 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
                     break;
                 case R.id.button_next:
                     new CryptoThread(EncryptActivity.this, fileFromPath, resultFolderPath, "test").start();
+
+                    progressDialog = new EncodingProgressDialog(EncryptActivity.this);
+
+                    progressDialog.setTitle("INIT");
+                    progressDialog.show();
                     break;
             }
         }
@@ -122,10 +131,45 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
     }
 
     @Override
-    public void onFinish() {
+    public void onStateChange(final int state) {
+
+        final String mState;
+
+        switch (state) {
+            case 0:
+                mState = "FILE_READING";
+                break;
+            case 1:
+                mState = "KEY_GENERATING";
+                break;
+            case 2:
+                mState = "FILE_ENCODING";
+                break;
+            case 3:
+                mState = "FILE_WRITING";
+                break;
+            default:
+                mState = "Please wait";
+                break;
+        }
+
+        Log.e("Status", mState);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                progressDialog.setTitle(mState);
+            }
+        });
+    }
+
+    @Override
+    public void onFinish() {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
                 Toast.makeText(EncryptActivity.this, "Wow!", Toast.LENGTH_SHORT).show();
             }
         });

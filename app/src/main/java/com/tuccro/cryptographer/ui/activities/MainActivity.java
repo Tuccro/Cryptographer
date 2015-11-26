@@ -1,4 +1,4 @@
-package com.tuccro.cryptographer.ui;
+package com.tuccro.cryptographer.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
