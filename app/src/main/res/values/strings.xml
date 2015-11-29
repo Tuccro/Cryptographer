@@ -2,4 +2,7 @@
     <string name="app_name">Cryptographer</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_encryptor">Encrypt</string>
+    <string name="title_activity_decryptor">Decrypt</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
 </resources>

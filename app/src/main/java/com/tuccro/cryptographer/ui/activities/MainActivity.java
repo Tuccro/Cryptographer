@@ -2,16 +2,19 @@ package com.tuccro.cryptographer.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.tuccro.cryptographer.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    Button btEncrypt;
+    Button btDecrypt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,15 +23,31 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EncryptActivity.class);
-                startActivity(intent);
-            }
-        });
+        btEncrypt = (Button) findViewById(R.id.bt_encrypt);
+        btDecrypt = (Button) findViewById(R.id.bt_decrypt);
+
+        btEncrypt.setOnClickListener(onClickListener);
+        btDecrypt.setOnClickListener(onClickListener);
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Intent intent;
+
+            switch (v.getId()) {
+                case R.id.bt_encrypt:
+                    intent = new Intent(MainActivity.this, EncryptActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.bt_decrypt:
+                    intent = new Intent(MainActivity.this, DecryptActivity.class);
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
