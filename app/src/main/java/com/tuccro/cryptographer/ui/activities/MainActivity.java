@@ -38,11 +38,13 @@ public class MainActivity extends AppCompatActivity {
 
             switch (v.getId()) {
                 case R.id.bt_encrypt:
-                    intent = new Intent(MainActivity.this, EncryptActivity.class);
+                    intent = new Intent(MainActivity.this, CryptoActivity.class);
+                    intent.putExtra(CryptoActivity.KEY_DIRECTION, CryptoActivity.ENCRYPTION);
                     startActivity(intent);
                     break;
                 case R.id.bt_decrypt:
-                    intent = new Intent(MainActivity.this, DecryptActivity.class);
+                    intent = new Intent(MainActivity.this, CryptoActivity.class);
+                    intent.putExtra(CryptoActivity.KEY_DIRECTION, CryptoActivity.DECRYPTION);
                     startActivity(intent);
                     break;
             }

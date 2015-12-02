@@ -21,7 +21,14 @@ import com.tuccro.filemanager.FileManager;
 
 import java.io.File;
 
-public class EncryptActivity extends AppCompatActivity implements IEngineCallback {
+public class CryptoActivity extends AppCompatActivity implements IEngineCallback {
+
+    public static final String KEY_DIRECTION = "direction";
+
+    public static final String ENCRYPTION = "encryption";
+    public static final String DECRYPTION = "decryption";
+
+    private String currentDirection;
 
     Button buttonGetFile;
     Button buttonGetFolder;
@@ -40,16 +47,21 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_encrypt);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            currentDirection = getIntent().getStringExtra(KEY_DIRECTION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            currentDirection = ENCRYPTION;
+        }
 
-        init();
+        setContentView(R.layout.activity_crypto);
+
+        initToolbar();
+        initViews();
     }
 
-    private void init() {
+    private void initViews() {
         buttonGetFile = (Button) findViewById(R.id.button_get_file);
         buttonGetFolder = (Button) findViewById(R.id.button_get_folder);
         buttonNext = (Button) findViewById(R.id.button_next);
@@ -78,6 +90,22 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
         });
     }
 
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        switch (currentDirection) {
+            case ENCRYPTION:
+                toolbar.setTitle(R.string.title_activity_encryptor);
+                break;
+            case DECRYPTION:
+                toolbar.setTitle(R.string.title_activity_decryptor);
+                break;
+        }
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     private void setResultFolderByFileDestination() {
         if (fileFromPath != null && !fileFromPath.isEmpty()) {
 
@@ -95,15 +123,15 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.button_get_file:
-                    FileManager.getFile(EncryptActivity.this);
+                    FileManager.getFile(CryptoActivity.this);
                     break;
                 case R.id.button_get_folder:
-                    FileManager.getFolder(EncryptActivity.this);
+                    FileManager.getFolder(CryptoActivity.this);
                     break;
                 case R.id.button_next:
-                    new CryptoThread(EncryptActivity.this, fileFromPath, resultFolderPath, "test").start();
+                    new CryptoThread(CryptoActivity.this, fileFromPath, resultFolderPath, "test").start();
 
-                    progressDialog = new EncodingProgressDialog(EncryptActivity.this);
+                    progressDialog = new EncodingProgressDialog(CryptoActivity.this);
 
                     progressDialog.setTitle("INIT");
                     progressDialog.show();
@@ -170,7 +198,7 @@ public class EncryptActivity extends AppCompatActivity implements IEngineCallbac
             @Override
             public void run() {
                 progressDialog.dismiss();
-                Toast.makeText(EncryptActivity.this, "Wow!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CryptoActivity.this, "Wow!", Toast.LENGTH_SHORT).show();
             }
         });
     }

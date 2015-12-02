@@ -24,17 +24,7 @@
         <activity android:name="com.tuccro.filemanager.ui.FileManagerActivity" />
         <activity android:name=".ui.activities.ResultActivity" />
         <activity
-            android:name=".ui.activities.EncryptActivity"
-            android:label="@string/title_activity_encryptor"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.activities.DecryptActivity"
-            android:label="@string/title_activity_decryptor"
+            android:name=".ui.activities.CryptoActivity"
             android:parentActivityName=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
