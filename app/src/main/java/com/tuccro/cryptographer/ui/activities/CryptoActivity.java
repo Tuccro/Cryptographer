@@ -178,6 +178,9 @@ public class CryptoActivity extends AppCompatActivity implements IEngineCallback
                 mState = "FILE_ENCODING";
                 break;
             case 3:
+                mState = "FILE_DECODING";
+                break;
+            case 4:
                 mState = "FILE_WRITING";
                 break;
             default:
