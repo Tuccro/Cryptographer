@@ -3,6 +3,7 @@ package com.tuccro.cryptographer.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -131,10 +132,13 @@ public class CryptoActivity extends AppCompatActivity implements IEngineCallback
                 case R.id.button_next:
                     new CryptoThread(CryptoActivity.this, fileFromPath, resultFolderPath, "test").start();
 
-                    progressDialog = new EncodingProgressDialog(CryptoActivity.this);
+                    FragmentManager fm = getSupportFragmentManager();
+//                    editNameDialog.show(fm, "fragment_edit_name");
+
+                    progressDialog = new EncodingProgressDialog();
+                    progressDialog.show(fm, "tag");
 
                     progressDialog.setTitle("INIT");
-                    progressDialog.show();
                     break;
             }
         }
@@ -197,7 +201,7 @@ public class CryptoActivity extends AppCompatActivity implements IEngineCallback
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
+                progressDialog.getDialog().dismiss();
                 Toast.makeText(CryptoActivity.this, "Wow!", Toast.LENGTH_SHORT).show();
             }
         });
