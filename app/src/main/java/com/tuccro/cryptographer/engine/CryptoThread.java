@@ -1,7 +1,5 @@
 package com.tuccro.cryptographer.engine;
 
-import android.util.Log;
-
 import com.tuccro.cryptographer.utils.Crypto;
 import com.tuccro.cryptographer.utils.FilesIO;
 
@@ -12,15 +10,21 @@ import java.io.File;
  */
 public class CryptoThread extends Thread {
 
+    public static final int DIRECTION_ENCRYPT = 1;
+    public static final int DIRECTION_DECRYPT = 2;
+
+    int direction;
+
     IEngineCallback iEngineCallback;
 
     String sourceFilePath;
     String resultDestinationPath;
     String password;
 
-    public CryptoThread(IEngineCallback iEngineCallback
+    public CryptoThread(IEngineCallback iEngineCallback, int direction
             , String sourceFilePath, String resultDestinationPath, String password) {
         this.iEngineCallback = iEngineCallback;
+        this.direction = direction;
         this.sourceFilePath = sourceFilePath;
         this.resultDestinationPath = resultDestinationPath;
         this.password = password;
@@ -39,8 +43,15 @@ public class CryptoThread extends Thread {
             iEngineCallback.onStateChange(IEngineCallback.STATE_KEY_GENERATING);
             byte[] key = Crypto.generateKey(password);
 
-            iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_ENCODING);
-            byte[] result = Crypto.encodeFile(key, fileBytes);
+            byte[] result;
+
+            if (direction == DIRECTION_ENCRYPT) {
+                iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_ENCODING);
+                result = Crypto.encodeFile(key, fileBytes);
+            } else {
+                iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_DECODING);
+                result = Crypto.decodeFile(key, fileBytes);
+            }
 
             iEngineCallback.onStateChange(IEngineCallback.STATE_FILE_WRITING);
             FilesIO.writeFile(result, resultDestinationPath, new File(sourceFilePath).getName().concat(".encrypt"));

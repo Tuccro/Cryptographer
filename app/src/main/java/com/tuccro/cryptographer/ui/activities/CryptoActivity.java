@@ -130,15 +130,22 @@ public class CryptoActivity extends AppCompatActivity implements IEngineCallback
                     FileManager.getFolder(CryptoActivity.this);
                     break;
                 case R.id.button_next:
-                    new CryptoThread(CryptoActivity.this, fileFromPath, resultFolderPath, "test").start();
+
+                    if (currentDirection.equals(ENCRYPTION)) {
+                        new CryptoThread(CryptoActivity.this, CryptoThread.DIRECTION_ENCRYPT
+                                , fileFromPath, resultFolderPath, "test").start();
+                    } else {
+                        new CryptoThread(CryptoActivity.this, CryptoThread.DIRECTION_DECRYPT
+                                , fileFromPath, resultFolderPath, "test").start();
+                    }
 
                     FragmentManager fm = getSupportFragmentManager();
 //                    editNameDialog.show(fm, "fragment_edit_name");
 
                     progressDialog = new EncodingProgressDialog();
-                    progressDialog.show(fm, "tag");
 
                     progressDialog.setTitle("INIT");
+                    progressDialog.show(fm, "tag");
                     break;
             }
         }
