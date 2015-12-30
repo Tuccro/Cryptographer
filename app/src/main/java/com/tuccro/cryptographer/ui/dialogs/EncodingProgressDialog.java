@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tuccro.cryptographer.R;
 
@@ -13,6 +14,8 @@ import com.tuccro.cryptographer.R;
  * Created by tuccro on 11/26/15.
  */
 public class EncodingProgressDialog extends DialogFragment {
+
+    TextView textCurrentStatus;
 
     public EncodingProgressDialog() {
     }
@@ -23,7 +26,10 @@ public class EncodingProgressDialog extends DialogFragment {
 
 
         View view = inflater.inflate(R.layout.dialog_progress, container);
-        this.setTitle("title");
+
+        textCurrentStatus = (TextView) view.findViewById(R.id.textCurrentState);
+        textCurrentStatus.setText("test");
+//        this.setTitle("title");
         return view;
     }
 
